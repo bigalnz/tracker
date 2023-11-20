@@ -255,21 +255,24 @@ blocks:
       \        # if an attribute with the same name as a parameter is found,\n   \
       \     # a callback is registered (properties work, too).\n        self.threshold\
       \ = threshold\n        self.timer = 0\n        self.readyForTag = True\n   \
-      \     self.previousValue = None\n\n    def work(self, input_items, output_items):\n\
-      \        \"\"\"example: multiply with constant\"\"\"\n        \n        in0\
-      \ = input_items[0]\n        \n        for index in range(len(input_items[0])):\n\
-      \        \n            #print(self.previousValue)\n            #print(input_items[0][index])\n\
-      \            if self.previousValue is not None and input_items[0][index] >=\
-      \ 1.8:\n                print(f\" index {input_items[0][index]} index +1 {input_items[0][index+1]}\
-      \ index-1 {input_items[0][index-1]}\")\n                if input_items[0][index]\
-      \ > input_items[0][index-1] and input_items[0][index] > input_items[0][index+1]:\n\
-      \                    print(f\"peak at {input_items[0][index]}\")\n         \
-      \           key = pmt.intern(\"detect\")\n                    value = pmt.from_float(np.round(float(input_items[0][index]),2))\n\
-      \                    writeIndex = self.nitems_written(0) + index\n         \
-      \           print(f\"Index:{writeIndex}\")\n                    print(f\"Value:{value}\"\
-      )\n                    \n                    self.add_item_tag(0, writeIndex,\
-      \ key, value )          \n        self.previousValue = input_items[0][index]\n\
-      \                \n        output_items[0][:] = in0\n        return len(output_items[0])\n"
+      \     self.previousValue1 = None\n        self.previousValue2 = None\n\n   \
+      \ def work(self, input_items, output_items):\n        \"\"\"example: multiply\
+      \ with constant\"\"\"\n        \n        print(f\"length of input items {len(input_items[0])}\"\
+      )\n        for index in range(len(input_items[0])):\n        \n            \n\
+      \            print(f\"index : {index}\")\n\n            if index > 3 and index\
+      \ < 5:\n                #print(\"inside loop *********************\")\n    \
+      \            #print(f\"index : {index} input itmes index : {input_items[0][index]}\"\
+      )\n                #print(f\"index : {index} input itmes -1 : {input_items[0][index-1]}\"\
+      )\n                #print(f\"index : {index} input itmes -2: {input_items[0][index-2]}\"\
+      )\n                if input_items[0][index-1] > input_items[0][index] and input_items[0][index-1]\
+      \ > input_items[0][index-2]:\n                    print(f\"peak at {input_items[0][index-1]}\"\
+      )\n                    key = pmt.intern(\"detect\")\n                    value\
+      \ = pmt.from_float(np.round(float(input_items[0][index-1]),2))\n           \
+      \         writeIndex = self.nitems_written(0) + index-1\n                  \
+      \  print(f\"Index:{writeIndex}\")\n                    print(f\"Value:{value}\"\
+      )\n                        \n                    self.add_item_tag(0, writeIndex,\
+      \ key, value )   \n                \n        output_items[0][:] = input_items[0]\n\
+      \        return len(output_items[0])\n"
     affinity: ''
     alias: ''
     comment: "I just cant get the peak detection to work.\nIt never enters the for\

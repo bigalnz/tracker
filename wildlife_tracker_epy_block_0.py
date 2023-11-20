@@ -27,29 +27,32 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         self.threshold = threshold
         self.timer = 0
         self.readyForTag = True
-        self.previousValue = None
+        self.previousValue1 = None
+        self.previousValue2 = None
 
     def work(self, input_items, output_items):
         """example: multiply with constant"""
         
-        in0 = input_items[0]
-        
+        print(f"length of input items {len(input_items[0])}")
         for index in range(len(input_items[0])):
         
-            #print(self.previousValue)
-            #print(input_items[0][index])
-            if self.previousValue is not None and input_items[0][index] >= 1.8:
-                print(f" index {input_items[0][index]} index +1 {input_items[0][index+1]} index-1 {input_items[0][index-1]}")
-                if input_items[0][index] > input_items[0][index-1] and input_items[0][index] > input_items[0][index+1]:
-                    print(f"peak at {input_items[0][index]}")
+            
+            print(f"index : {index}")
+
+            if index > 3 and index < 5:
+                #print("inside loop *********************")
+                #print(f"index : {index} input itmes index : {input_items[0][index]}")
+                #print(f"index : {index} input itmes -1 : {input_items[0][index-1]}")
+                #print(f"index : {index} input itmes -2: {input_items[0][index-2]}")
+                if input_items[0][index-1] > input_items[0][index] and input_items[0][index-1] > input_items[0][index-2]:
+                    print(f"peak at {input_items[0][index-1]}")
                     key = pmt.intern("detect")
-                    value = pmt.from_float(np.round(float(input_items[0][index]),2))
-                    writeIndex = self.nitems_written(0) + index
+                    value = pmt.from_float(np.round(float(input_items[0][index-1]),2))
+                    writeIndex = self.nitems_written(0) + index-1
                     print(f"Index:{writeIndex}")
                     print(f"Value:{value}")
-                    
-                    self.add_item_tag(0, writeIndex, key, value )          
-        self.previousValue = input_items[0][index]
+                        
+                    self.add_item_tag(0, writeIndex, key, value )   
                 
-        output_items[0][:] = in0
+        output_items[0][:] = input_items[0]
         return len(output_items[0])

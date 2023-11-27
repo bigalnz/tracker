@@ -391,7 +391,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    center_freq: '-800000'
+    center_freq: '-670280'
     comment: 2.4 MS/s -> 600 kS/s
     decim: '4'
     maxoutbuf: '0'

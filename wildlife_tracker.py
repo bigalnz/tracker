@@ -167,7 +167,7 @@ class wildlife_tracker(gr.top_block, Qt.QWidget):
 
         self._qtgui_time_sink_x_2_win = sip.wrapinstance(self.qtgui_time_sink_x_2.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_time_sink_x_2_win)
-        self.freq_xlating_fir_filter_xxx_0 = filter.freq_xlating_fir_filter_ccc(4, firdes.low_pass(1,samp_rate,samp_rate/(2*4), 1000), (-800000), samp_rate)
+        self.freq_xlating_fir_filter_xxx_0 = filter.freq_xlating_fir_filter_ccc(4, firdes.low_pass(1,samp_rate,samp_rate/(2*4), 1000), (-670280), samp_rate)
         self.fir_filter_xxx_0_0 = filter.fir_filter_ccc(8, firdes.low_pass(1,75e3,75e3/(2*4), 1000))
         self.fir_filter_xxx_0_0.declare_sample_delay(0)
         self.fir_filter_xxx_0 = filter.fir_filter_ccc(8, firdes.low_pass(1,600e3,600e3/(2*8), 1000))

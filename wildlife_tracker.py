@@ -39,6 +39,7 @@ from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
 import numpy as np
 import wildlife_tracker_epy_block_0 as epy_block_0  # embedded python block
+import wildlife_tracker_epy_block_1 as epy_block_1  # embedded python block
 
 
 
@@ -118,25 +119,25 @@ class wildlife_tracker(gr.top_block, Qt.QWidget):
                 decimation=16,
                 taps=[],
                 fractional_bw=0)
-        self.qtgui_time_sink_x_1 = qtgui.time_sink_c(
+        self.qtgui_time_sink_x_2 = qtgui.time_sink_f(
             1024, #size
-            samp_rate, #samp_rate
-            "", #name
-            1, #number of inputs
+            585.9375, #samp_rate
+            'Second time sink at end', #name
+            2, #number of inputs
             None # parent
         )
-        self.qtgui_time_sink_x_1.set_update_time(0.10)
-        self.qtgui_time_sink_x_1.set_y_axis(-1, 1)
+        self.qtgui_time_sink_x_2.set_update_time(0.10)
+        self.qtgui_time_sink_x_2.set_y_axis(-1, 1)
 
-        self.qtgui_time_sink_x_1.set_y_label('Amplitude', "")
+        self.qtgui_time_sink_x_2.set_y_label('Amplitude', "")
 
-        self.qtgui_time_sink_x_1.enable_tags(True)
-        self.qtgui_time_sink_x_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
-        self.qtgui_time_sink_x_1.enable_autoscale(False)
-        self.qtgui_time_sink_x_1.enable_grid(False)
-        self.qtgui_time_sink_x_1.enable_axis_labels(True)
-        self.qtgui_time_sink_x_1.enable_control_panel(True)
-        self.qtgui_time_sink_x_1.enable_stem_plot(False)
+        self.qtgui_time_sink_x_2.enable_tags(True)
+        self.qtgui_time_sink_x_2.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_2.enable_autoscale(False)
+        self.qtgui_time_sink_x_2.enable_grid(False)
+        self.qtgui_time_sink_x_2.enable_axis_labels(True)
+        self.qtgui_time_sink_x_2.enable_control_panel(False)
+        self.qtgui_time_sink_x_2.enable_stem_plot(False)
 
 
         labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
@@ -155,80 +156,33 @@ class wildlife_tracker(gr.top_block, Qt.QWidget):
 
         for i in range(2):
             if len(labels[i]) == 0:
-                if (i % 2 == 0):
-                    self.qtgui_time_sink_x_1.set_line_label(i, "Re{{Data {0}}}".format(i/2))
-                else:
-                    self.qtgui_time_sink_x_1.set_line_label(i, "Im{{Data {0}}}".format(i/2))
+                self.qtgui_time_sink_x_2.set_line_label(i, "Data {0}".format(i))
             else:
-                self.qtgui_time_sink_x_1.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_1.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_1.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_1.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_1.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_1.set_line_alpha(i, alphas[i])
+                self.qtgui_time_sink_x_2.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_2.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_2.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_2.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_2.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_2.set_line_alpha(i, alphas[i])
 
-        self._qtgui_time_sink_x_1_win = sip.wrapinstance(self.qtgui_time_sink_x_1.qwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_time_sink_x_1_win)
-        self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
-            2048, #size
-            9.375e3/16, #samp_rate
-            "", #name
-            1, #number of inputs
-            None # parent
-        )
-        self.qtgui_time_sink_x_0.set_update_time(0.10)
-        self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
-
-        self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
-
-        self.qtgui_time_sink_x_0.enable_tags(True)
-        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_AUTO, qtgui.TRIG_SLOPE_POS, 0.1, 0.01, 0, "")
-        self.qtgui_time_sink_x_0.enable_autoscale(True)
-        self.qtgui_time_sink_x_0.enable_grid(False)
-        self.qtgui_time_sink_x_0.enable_axis_labels(True)
-        self.qtgui_time_sink_x_0.enable_control_panel(False)
-        self.qtgui_time_sink_x_0.enable_stem_plot(False)
-
-
-        labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
-            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
-        widths = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        colors = ['blue', 'red', 'green', 'black', 'cyan',
-            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-            1.0, 1.0, 1.0, 1.0, 1.0]
-        styles = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        markers = [-1, -1, -1, -1, -1,
-            -1, -1, -1, -1, -1]
-
-
-        for i in range(1):
-            if len(labels[i]) == 0:
-                self.qtgui_time_sink_x_0.set_line_label(i, "Data {0}".format(i))
-            else:
-                self.qtgui_time_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
-
-        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.qwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_time_sink_x_0_win)
-        self.freq_xlating_fir_filter_xxx_0 = filter.freq_xlating_fir_filter_ccc(4, firdes.low_pass(1,samp_rate,samp_rate/(2*4), 1000), (-80000), samp_rate)
+        self._qtgui_time_sink_x_2_win = sip.wrapinstance(self.qtgui_time_sink_x_2.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_time_sink_x_2_win)
+        self.freq_xlating_fir_filter_xxx_0 = filter.freq_xlating_fir_filter_ccc(4, firdes.low_pass(1,samp_rate,samp_rate/(2*4), 1000), (-800000), samp_rate)
         self.fir_filter_xxx_0_0 = filter.fir_filter_ccc(8, firdes.low_pass(1,75e3,75e3/(2*4), 1000))
         self.fir_filter_xxx_0_0.declare_sample_delay(0)
         self.fir_filter_xxx_0 = filter.fir_filter_ccc(8, firdes.low_pass(1,600e3,600e3/(2*8), 1000))
         self.fir_filter_xxx_0.declare_sample_delay(0)
-        self.epy_block_0 = epy_block_0.blk(threshold=1)
-        self.blocks_wavfile_source_0 = blocks.wavfile_source('D:\\Downloads\\sdrpp_windows_x64\\sdrpp_windows_x64\\recordings\\baseband_160787050Hz_16-38-33_15-11-2023.wav', True)
+        self.epy_block_1 = epy_block_1.blk(key_filter="index")
+        self.epy_block_0 = epy_block_0.blk(threshold=0.5, report_period=128)
+        self.epy_block_0.set_block_alias("index")
+        self.blocks_wavfile_source_0 = blocks.wavfile_source('D:\\baseband_160991830Hz_10-45-33_26-11-2023 Rotoroa.wav', True)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
+        self.blocks_peak_detector2_fb_0 = blocks.peak_detector2_fb(1, 100, 0.001)
         self.blocks_multiply_conjugate_cc_0 = blocks.multiply_conjugate_cc(1)
         self.blocks_moving_average_xx_0 = blocks.moving_average_cc(pulse_len, 1, 4000, 1)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
+        self.blocks_char_to_float_0 = blocks.char_to_float(1, 1)
         self.analog_pll_refout_cc_0 = analog.pll_refout_cc(0.35, (max_freq*2*np.pi/samp_rate), (min_freq*2*np.pi/samp_rate))
 
 
@@ -236,20 +190,23 @@ class wildlife_tracker(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.connect((self.analog_pll_refout_cc_0, 0), (self.blocks_multiply_conjugate_cc_0, 1))
+        self.connect((self.blocks_char_to_float_0, 0), (self.epy_block_0, 0))
         self.connect((self.blocks_complex_to_mag_0, 0), (self.rational_resampler_xxx_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.blocks_moving_average_xx_0, 0), (self.blocks_complex_to_mag_0, 0))
         self.connect((self.blocks_multiply_conjugate_cc_0, 0), (self.blocks_moving_average_xx_0, 0))
+        self.connect((self.blocks_peak_detector2_fb_0, 0), (self.blocks_char_to_float_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.freq_xlating_fir_filter_xxx_0, 0))
         self.connect((self.blocks_wavfile_source_0, 1), (self.blocks_float_to_complex_0, 1))
         self.connect((self.blocks_wavfile_source_0, 0), (self.blocks_float_to_complex_0, 0))
-        self.connect((self.epy_block_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.epy_block_0, 0), (self.epy_block_1, 0))
+        self.connect((self.epy_block_1, 0), (self.qtgui_time_sink_x_2, 0))
         self.connect((self.fir_filter_xxx_0, 0), (self.fir_filter_xxx_0_0, 0))
         self.connect((self.fir_filter_xxx_0_0, 0), (self.analog_pll_refout_cc_0, 0))
         self.connect((self.fir_filter_xxx_0_0, 0), (self.blocks_multiply_conjugate_cc_0, 0))
-        self.connect((self.fir_filter_xxx_0_0, 0), (self.qtgui_time_sink_x_1, 0))
         self.connect((self.freq_xlating_fir_filter_xxx_0, 0), (self.fir_filter_xxx_0, 0))
-        self.connect((self.rational_resampler_xxx_0, 0), (self.epy_block_0, 0))
+        self.connect((self.rational_resampler_xxx_0, 0), (self.blocks_peak_detector2_fb_0, 0))
+        self.connect((self.rational_resampler_xxx_0, 0), (self.qtgui_time_sink_x_2, 1))
 
 
     def closeEvent(self, event):
@@ -276,7 +233,6 @@ class wildlife_tracker(gr.top_block, Qt.QWidget):
         self.analog_pll_refout_cc_0.set_min_freq((self.min_freq*2*np.pi/self.samp_rate))
         self.blocks_throttle_0.set_sample_rate(self.samp_rate)
         self.freq_xlating_fir_filter_xxx_0.set_taps(firdes.low_pass(1,self.samp_rate,self.samp_rate/(2*4), 1000))
-        self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate)
 
     def get_pulse_len(self):
         return self.pulse_len
